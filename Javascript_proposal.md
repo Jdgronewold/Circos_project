@@ -21,7 +21,7 @@ In addition, this project will include:
 ### Wireframes
 
 This app will consist of a single screen with an upload button as well as the options to edit (i.e. change weight, color, and location of tracks in the circos). The majority of the page will be taken up by the circos visualization.
-![wireframes](images/js_wireframe.jpeg)
+![wireframes](./wireframe_js.eps)
 
 ### Architecture and Technologies
 
@@ -67,3 +67,5 @@ There are many directions this network visualization to go.  Some anticipated up
 
 - [ ] Add the ability to toggle between instances of the circos
 - [ ] Further circos plot manipulation (click and drag tracks to desired location). 
+
+[circos][http://circos.ca/]
