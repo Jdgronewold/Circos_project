@@ -53,6 +53,10 @@ fieldset {
   display: none;
 }
 
+.instruction-container {
+  display: none;
+}
+
 .form-tab {
   display: flex;
   justify-content: flex-start;

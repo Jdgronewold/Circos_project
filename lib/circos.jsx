@@ -6,6 +6,7 @@ import LayoutForm from './forms/layout';
 import HeatmapForm from './forms/heatmap';
 import HistogramForm from './forms/histogram';
 import ScatterForm from './forms/scatter';
+import Instructions from './instructions';
 
 
 class Root extends React.Component {
@@ -19,7 +20,8 @@ class Root extends React.Component {
     bindAll(this,
       'updateFromChild', 'handleSelect',
       'renderForm', 'handleDownloadName',
-      'handleDownload', 'handleToggle'
+      'handleDownload', 'handleToggle',
+      'handleToggleInstructions'
     );
   }
 
@@ -49,6 +51,10 @@ class Root extends React.Component {
 
   handleToggle() {
     $('.all-forms').toggle("slide", {direction: "right" }, 600);
+  }
+
+  handleToggleInstructions() {
+    $('.instruction-container').toggle("slide", {direction: "left" }, 600);
   }
 
   updateFromChild(key, value) {
@@ -90,11 +96,14 @@ class Root extends React.Component {
   render() {
     return(
     <div className="main-container">
+      <div className="instruction-container">
+        <Instructions />
+      </div>
       <div className="circos-container">
         <div className="form-options">
           <div
             className="toggle"
-            onClick={this.handleToggle}>
+            onClick={this.handleToggleInstructions}>
             <i className="fa fa-book fa-2x" aria-hidden="true"></i>
           </div>
           <div className="download">
