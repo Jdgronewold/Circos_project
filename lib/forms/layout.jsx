@@ -2,6 +2,7 @@ import React from 'react';
 import { bindAll, merge } from 'lodash';
 import Papa from 'papaparse';
 import Circos from '../js/circos';
+import { objectify, loadData } from '../js/utils';
 
 class LayoutForm extends React.Component {
   constructor(props) {
@@ -11,20 +12,19 @@ class LayoutForm extends React.Component {
     bindAll(this,
       'resetState', 'update',
       'updateNested', 'loadData',
-      'parseData'
+      'parseData', 'handleSubmit'
     );
-    this.data = {};
-    this.fileText = ''
+    this.fileText = '';
   }
 
   resetState() {
     return ({
-      innerRadius: 100,
-      outerRadius: 120,
+      innerRadius: 200,
+      outerRadius: 240,
       labels: {
         display: true,
         color: "#000000",
-        radialOffset: 20,
+        radialOffset: 10,
         size: {
           minor: 2,
           major: 5
@@ -35,17 +35,19 @@ class LayoutForm extends React.Component {
         color: "#000000",
         labels: true,
         labelSuffix: 'Mb',
-        labelSize: 10
+        labelSize: 10,
+        spacing: 15
       }
     });
   }
 
   loadData(e) {
+    $('#loaded').toggle();
     e.preventDefault();
     if ( ! window.FileReader ) {
       return alert( 'FileReader API is not supported by your browser.' );
     }
-    let $i = $('#layout-file'), // Put file input ID here
+    let $i = $('#choose-file'), // Put file input ID here
     input = $i[0];
      // Getting the element from jQuery
     if ( input.files && input.files[0] ) {
@@ -53,8 +55,7 @@ class LayoutForm extends React.Component {
       let fr = new FileReader(); // FileReader instance
       fr.onload = () => {
         // Do stuff on onload, use fr.result for contents of file
-        debugger
-        this.fileText = fr.results;
+        this.fileText = fr.result;
       };
       fr.readAsText( file );
       // fr.readAsDataURL( file );
@@ -62,8 +63,6 @@ class LayoutForm extends React.Component {
       // Handle errors here
       alert( "File not selected or browser incompatible." );
     }
-    debugger
-    this.parseData(this.fileText);
   }
 
   parseData(text) {
@@ -72,14 +71,17 @@ class LayoutForm extends React.Component {
       dynamicTyping: true,
       complete: (results) => {
         console.log(results);
-        const circosObj = new Circos(results.data, this.state);
-        this.props.updateFromChild("circos", circosObj)
-        // const instance = circos.buildInstance();
-        // debugger
-        // window.instance = instance;
-        // instance.render();
+        const fixedState = objectify(this.state);
+        const circosObj = new Circos(results.data, fixedState);
+        const circosInstance = circosObj.buildInstance();
+        this.props.updateFromChild("circos", circosInstance);
       }
     });
+  }
+
+  handleSubmit(){
+    $('#loaded').toggle();
+    this.parseData(this.fileText);
   }
 
   update(property) {
@@ -90,23 +92,23 @@ class LayoutForm extends React.Component {
 
   updateNested(property1, property2) {
     return (e) => {
-      this.setState({[property1]: {
-        [property2]: e.currentTarget.value}
-      });
+      const temp = this.state[property1];
+      const newSlice = merge(temp, {[property2]: e.currentTarget.value});
+      this.setState({[property1]: newSlice});
     };
   }
 
   renderLayoutForm() {
     return (
       <div className="forms-container">
-        <div className="layout-tab">
-          <input type="file" id="layout-file" />
+        <div className="form-tab">
+          <input type="file" id="choose-file" />
           <input
             type='button'
             id='load-layout'
             value='Load'
             onClick={this.loadData}/>
-          <ul id="file-content"></ul>
+          <span id="loaded">Loaded!</span>
           <div className="form-div">
             <h3>Ideogram Configuration</h3>
             <form id="layout-form">
@@ -145,7 +147,6 @@ class LayoutForm extends React.Component {
                 <input
                   type="radio"
                   name="display1"
-                  checked
                   value={true}
                   onChange={this.updateNested('labels', 'display')}/>
               </label>
@@ -153,16 +154,15 @@ class LayoutForm extends React.Component {
                 <input
                   type="radio"
                   name="display1"
-                  checked
                   value={false}
                   onChange={this.updateNested('labels', 'display')}/>
               </label>
             </fieldset>
           </div>
           <div className="form-option">
-            <label htmlFor="color">Font Size</label>
+            <label htmlFor="color">Label Color</label>
             <input
-              type="number"
+              type="text"
               name="color"
               value={this.state.labels.color}
               onChange={this.updateNested('labels', 'color')}/>
@@ -176,9 +176,9 @@ class LayoutForm extends React.Component {
               onChange={this.updateNested('labels', 'radialOffset')}/>
           </div>
           <div className="form-options">
-            <label htmlFor="size">Color (hex)</label>
+            <label htmlFor="size">Font size</label>
             <input
-              type="numer"
+              type="number"
               name="size" value={12}
               onChange={this.updateNested('labels', 'size')}/>
           </div>
@@ -198,7 +198,6 @@ class LayoutForm extends React.Component {
                 <input
                   type="radio"
                   name="display1"
-                  checked
                   value={true}
                   onChange={this.updateNested('ticks', 'display')}/>
               </label>
@@ -233,7 +232,6 @@ class LayoutForm extends React.Component {
                 <input
                   type="radio"
                   name="display2"
-                  checked
                   value={true}
                   onChange={this.updateNested('ticks', 'labels')}/>
               </label>
@@ -258,15 +256,14 @@ class LayoutForm extends React.Component {
       </div>
     );
   }
-  // <button id="submit-layout">Submit Layout</button>
 
   render() {
-    debugger
     return (
       <div className="layout">
         { this.renderLayoutForm() }
         { this.renderLabelsForm() }
         { this.renderTicksForm() }
+        <button id="submit-layout" onClick={this.handleSubmit}>Submit Layout</button>
       </div>
     );
   }
