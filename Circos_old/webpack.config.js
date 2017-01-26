@@ -1,7 +1,7 @@
 const path = require('path');
 module.exports = {
   context: __dirname,
-  entry: './lib/circos.jsx',
+  entry: './lib/main.js',
   output: {
     path: "./lib",
     filename: 'bundle.js'
