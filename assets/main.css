@@ -4,6 +4,19 @@ fieldset {
   margin: 0;
 }
 
+.main-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: rows;
+  width: 90%;
+}
+
 .circos-container {
   display: flex;
   justify-content: center;
@@ -11,9 +24,33 @@ fieldset {
   align-items: center;
 }
 
-.forms-container {
+.download {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.download button {
+  width: 50%;
+}
+
+.toggle {
+  margin: 10px;
+  width: 50px;
+  height: 50px;
+}
+
+.toggle i {
+  border-radius: 3px;
+  	cursor: pointer;
+    color: #FF5733;
+    background-color: #900C3F;
+    padding: 10px;
+}
+
+.all-forms {
+  display: none;
 }
 
 .form-tab {

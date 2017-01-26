@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { bindAll, merge } from 'lodash';
 
 import LayoutForm from './forms/layout';
 import HeatmapForm from './forms/heatmap';
@@ -11,13 +12,15 @@ class Root extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      downloadName: '',
       form: 'layout',
       circos: {}
     };
-
-    this.updateFromChild = this.updateFromChild.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
-    this.renderForm = this.renderForm.bind(this);
+    bindAll(this,
+      'updateFromChild', 'handleSelect',
+      'renderForm', 'handleDownloadName',
+      'handleDownload', 'handleToggle'
+    );
   }
 
   componentDidUpdate() {
@@ -30,6 +33,22 @@ class Root extends React.Component {
   handleSelect(e) {
     e.preventDefault();
     this.setState({form: e.currentTarget.value});
+  }
+
+  handleDownloadName(e) {
+    this.setState({downloadName: e.currentTarget.value});
+  }
+
+  handleDownload(e) {
+    const config = {
+      filename: this.state.downloadName
+    };
+    this.setState({downloadName: ""});
+    d3_save_svg.save(d3.select('svg').node(), config);
+  }
+
+  handleToggle() {
+    $('.all-forms').toggle("slide", {direction: "right" }, 600);
   }
 
   updateFromChild(key, value) {
@@ -73,6 +92,31 @@ class Root extends React.Component {
     <div className="main-container">
       <div className="circos-container">
         <div className="form-options">
+          <div
+            className="toggle"
+            onClick={this.handleToggle}>
+            <i className="fa fa-book fa-2x" aria-hidden="true"></i>
+          </div>
+          <div className="download">
+            <input
+              type="text"
+              value={this.state.downloadName}
+              onChange={this.handleDownloadName}
+              placeholder="Choose file name"/>
+            <button id="export" onClick={this.handleDownload}>Download</button>
+          </div>
+          <div
+            className="toggle"
+            onClick={this.handleToggle}>
+            <i className="fa fa-plus-square fa-2x" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div className="svg-container">
+          <svg id="chart"></svg>
+        </div>
+      </div>
+      <div className="all-forms">
+        <div className="form-select">
           <select value={this.state.form} onChange={this.handleSelect}>
             <option value="layout">Layout</option>
             <option value="heatmap">Heatmap</option>
@@ -80,12 +124,9 @@ class Root extends React.Component {
             <option value="scatter">Scatter</option>
           </select>
         </div>
-        <div className="svg-container">
-          <svg id="chart"></svg>
+        <div className='form-component'>
+          {this.renderForm()}
         </div>
-      </div>
-      <div className="form-container">
-        {this.renderForm()}
       </div>
     </div>
   );
