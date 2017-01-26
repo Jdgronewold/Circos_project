@@ -12,7 +12,8 @@ class LayoutForm extends React.Component {
     bindAll(this,
       'resetState', 'update',
       'updateNested', 'loadData',
-      'parseData', 'handleSubmit'
+      'parseData', 'handleSubmit',
+      'renderDemoData', 'handleDemo'
     );
     this.fileText = '';
   }
@@ -55,6 +56,7 @@ class LayoutForm extends React.Component {
       let fr = new FileReader(); // FileReader instance
       fr.onload = () => {
         // Do stuff on onload, use fr.result for contents of file
+        debugger
         this.fileText = fr.result;
       };
       fr.readAsText( file );
@@ -66,14 +68,15 @@ class LayoutForm extends React.Component {
   }
 
   parseData(text) {
+    debugger
     Papa.parse(text, {
       header: true,
       dynamicTyping: true,
       complete: (results) => {
-        console.log(results);
         const fixedState = objectify(this.state);
         const circosObj = new Circos(results.data, fixedState);
         const circosInstance = circosObj.buildInstance();
+        debugger
         this.props.updateFromChild("circos", circosInstance);
       }
     });
@@ -82,6 +85,12 @@ class LayoutForm extends React.Component {
   handleSubmit(){
     $('#loaded').toggle();
     this.parseData(this.fileText);
+  }
+
+  handleDemo() {
+    const data = $('#demo-data').html();
+    $('#loaded').toggle();
+    this.fileText = data;
   }
 
   update(property) {
@@ -108,6 +117,11 @@ class LayoutForm extends React.Component {
             id='load-layout'
             value='Load'
             onClick={this.loadData}/>
+          <input
+            type='button'
+            id='demo-button'
+            value="Demo"
+            onClick={this.handleDemo}/>
           <span id="loaded">Loaded!</span>
           <div className="form-div">
             <h3>Ideogram Configuration</h3>
@@ -136,12 +150,20 @@ class LayoutForm extends React.Component {
     );
   }
 
+  renderDemoData() {
+    const string = "len,color,label,id30,#8dd3c7,january,january30,#ffffb3,february,february30,#bebada,march,march30,#fb8072,april,april30,#80b1d3,may,may30,#fdb462,june,june30,#b3de69,july,july30,#fccde5,august,august30,#d9d9d9,september,september30,#bc80bd,october,october30,#ccebc5,november,november30,#ffed6f,december,december";
+    return (
+      <div id="demo-data">{string}</div>
+    );
+  }
+
   renderLabelsForm() {
     return (
       <div className="form-div">
         <h4>Ideogram Labels</h4>
         <form id="labels-form">
           <div className="form-option-radio">
+            {this.renderDemoData()}
             <fieldset id="display1">
               <label> Display Labels
                 <input

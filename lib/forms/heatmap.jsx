@@ -63,17 +63,13 @@ class HeatmapForm extends React.Component {
       header: true,
       dynamicTyping: true,
       complete: (results) => {
-        console.log(results);
         const config = objectify(this.state);
         delete config['trackName'];
-        console.log(this.props.circos);
-        debugger
         const data = results.data.map((rowObj, idx) => {
           return Object.values(rowObj);
         });
         const trackName = this.state.trackName;
         // this.removeStateKey('trackName');
-        debugger
         this.props.circos.heatmap(trackName, config, data);
         this.setState(this.resetState());
         this.props.updateFromChild("circos", this.props.circos);

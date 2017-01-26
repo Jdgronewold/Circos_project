@@ -10,6 +10,10 @@ fieldset {
   justify-content: space-around;
 }
 
+#demo-data {
+  display: none;
+}
+
 .form-options {
   display: flex;
   justify-content: space-between;

@@ -65,10 +65,8 @@ class HistogramForm extends React.Component {
       header: true,
       dynamicTyping: true,
       complete: (results) => {
-        console.log(results);
         const config = objectify(this.state);
         delete config['trackName'];
-        console.log(this.props.circos);
         const data = results.data.map((rowObj, idx) => {
           return Object.values(rowObj);
         });
