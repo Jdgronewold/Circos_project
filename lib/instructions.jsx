@@ -21,7 +21,7 @@ const Instructions = () => (
         headers. The headers are as follows: "len", "color", "label", and "id".
       </li>
       <li>
-        <img src="../test_data/sample_layout.png"></img>
+        <img src="lib/test_data/sample_layout.png"></img>
       </li>
       <li>
         After that, feel free to add as many tracks as you would like. Each track's data
@@ -31,7 +31,7 @@ const Instructions = () => (
         are required, but they do not need to match the sample data.
       </li>
       <li>
-        <img src="../test_data/sample_data.png"></img>
+        <img src="lib/test_data/sample_data.png"></img>
       </li>
     </ul>
   </div>
