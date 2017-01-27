@@ -8,40 +8,20 @@ After that the user is able to create circos images with an ideogram as well as 
 
 ![Circos_image][circos_image]
 
+The user is able to specify the configuration of how they want their layout and tracks to look by editing forms that allow the user to change the color of the tracks, presence of ticks/labels, and various other features.
+
+![Forms][forms]
 
 ## Technologies
 
 - User Data parsed using [Papaparse][papa]
 - Images created using [circosJS] [circosjs]
-- Track previous workouts
-- Find friends and view their routes/workouts
-- Comment on friends routes
-
-![demo map][map]
-
-## Project Design
-
-Ride Tracker was designed and built in two weeks.
-
-A [proposal][proposal] was drafted to help provide an implementation timeline during the development process.
-
-A [database schema][schema] was prepared alongside the design proposal.
-
-## Technology
-
-Ride Tracker is a single-page application built on Rails and React.js, with many dependencies in both the backend and the frontend. Maps utilize the Google Maps Javascript API and images are stored on [Cloudinary][cloudinary]
-
-
-## Future Implementations
-
-Elevation data can break if there are not enough sampling points to generate average
-
-Use of google charts to create better visuals
 
 
 
 [circos]: https://jdgronewold.github.io/Circos_project/
 [toggle]: ./docs/toggle.png
 [circos_image]: ./docs/circos.png
+[Froms][forms]: ./docs/form.png
 [papa]: http://papaparse.com/
 [circosjs]: https://www.gitbook.com/book/nicgirault/circosjs/details
