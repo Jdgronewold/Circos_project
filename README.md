@@ -22,6 +22,6 @@ The user is able to specify the configuration of how they want their layout and 
 [circos]: https://jdgronewold.github.io/Circos_project/
 [toggle]: ./docs/toggle.png
 [circos_image]: ./docs/circos.png
-[Froms][forms]: ./docs/form.png
+[Forms][forms]: ./docs/form.png
 [papa]: http://papaparse.com/
 [circosjs]: https://www.gitbook.com/book/nicgirault/circosjs/details
