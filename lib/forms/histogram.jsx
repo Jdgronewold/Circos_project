@@ -13,13 +13,15 @@ class HistogramForm extends React.Component {
       'resetState', 'loadData',
       'parseData', 'update',
       'handleSubmit', 'renderHistogramForm',
-      'removeStateKey', 'getID'
+      'removeStateKey', 'getID',
+      'handleDelete'
     );
   }
 
   resetState() {
     return ({
       trackName: '',
+      deleteTrack: '',
       innerRadius: 100,
       outerRadius: 120,
       min: 'smart',
@@ -103,6 +105,14 @@ class HistogramForm extends React.Component {
     $('#loaded').toggle();
     this.parseData(this.fileText);
   }
+
+  handleDelete() {
+    const track = this.state.deleteTrack;
+    this.setState(this.resetState());
+    this.props.circos.removeTracks(track);
+    this.props.updateFromChild("circos", this.props.circos);
+  }
+
 
   renderHistogramForm() {
     return (
@@ -193,6 +203,14 @@ class HistogramForm extends React.Component {
       <div className="histogram">
         { this.renderHistogramForm() }
         <button id="submit-histogram" onClick={this.handleSubmit}>Submit Track</button>
+          <div className="delete-track">
+            <input
+              type="text"
+              value={this.state.deleteTrack}
+              onChange={this.update("deleteTrack")}
+              placeholder="Track name to delete"/>
+            <button onClick={this.handleDelete}> Delete Track</button>
+          </div>
       </div>
     );
   }

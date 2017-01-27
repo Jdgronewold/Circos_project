@@ -13,13 +13,15 @@ class ScatterForm extends React.Component {
       'resetState', 'loadData',
       'parseData', 'update',
       'handleSubmit', 'renderScatterForm',
-      'removeStateKey', 'getID'
+      'removeStateKey', 'getID',
+      'handleDelete'
     );
     }
 
     resetState() {
       return ({
         trackName: '',
+        deleteTrack: '',
         innerRadius: 100,
         outerRadius: 120,
         min: 'smart',
@@ -79,6 +81,7 @@ class ScatterForm extends React.Component {
         complete: (results) => {
           const config = objectify(this.state);
           delete config['trackName'];
+          delete config['deleteTrack'];
           const label = this.getID(results.data[0]);
           const trackName = this.state.trackName;
           const toolTip = (d) => (
@@ -115,6 +118,13 @@ class ScatterForm extends React.Component {
     handleSubmit(){
       $('#loaded').toggle();
       this.parseData(this.fileText);
+    }
+
+    handleDelete() {
+      const track = this.state.deleteTrack;
+      this.setState(this.resetState());
+      this.props.circos.removeTracks(track);
+      this.props.updateFromChild("circos", this.props.circos);
     }
 
     renderScatterForm() {
@@ -251,6 +261,14 @@ class ScatterForm extends React.Component {
         <div className="scatter">
           {this.renderScatterForm()}
           <button id="submit-scatter" onClick={this.handleSubmit}>Submit Track</button>
+          <div className="delete-track">
+            <input
+              type="text"
+              value={this.state.deleteTrack}
+              onChange={this.update("deleteTrack")}
+              placeholder="Track name to delete"/>
+            <button onClick={this.handleDelete}> Delete Track</button>
+          </div>
         </div>
       );
     }

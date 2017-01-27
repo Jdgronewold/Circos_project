@@ -39,9 +39,13 @@ const Instructions = () => (
       </li>
       <li>
         Scatter data does not need an "end" column - it simply needs column
-        linking each row to a block, a start position, and a value. 
+        linking each row to a block, a start position, and a value.
       </li>
     </ul>
+    <span> Most of the magic is accomplished with &nbsp;
+      <a href="https://www.gitbook.com/book/nicgirault/circosjs/details">
+        circosJS
+      </a>, a d3.js library for illustrating circos plots.</span>
   </div>
 );
 

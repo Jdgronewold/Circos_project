@@ -83,9 +83,7 @@ class LayoutForm extends React.Component {
   }
 
   handleSubmit(){
-    let $i = $('#choose-file'), // Put file input ID here
-    input = $i[0];
-    if ( input.files && input.files[0] ) {
+    if ( this.fileText.length > 0 ) {
       $('#loaded').toggle();
       this.parseData(this.fileText);
     } else {
@@ -94,9 +92,8 @@ class LayoutForm extends React.Component {
   }
 
   handleDemo() {
-    const data = $('#demo-data').html();
     $('#loaded').toggle();
-    this.fileText = data;
+    this.fileText = 'test_data/test_layout.csv'
   }
 
   update(property) {
