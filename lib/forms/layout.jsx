@@ -3,6 +3,7 @@ import { bindAll, merge } from 'lodash';
 import Papa from 'papaparse';
 import Circos from '../js/circos';
 import { objectify, loadData } from '../js/utils';
+import { layout_data } from '../../test_data/data';
 
 class LayoutForm extends React.Component {
   constructor(props) {
@@ -92,8 +93,11 @@ class LayoutForm extends React.Component {
   }
 
   handleDemo() {
-    $('#loaded').toggle();
-    this.fileText = 'test_data/test_layout.csv'
+    const fixedState = objectify(this.state);
+    const circosObj = new Circos(layout_data, fixedState);
+    const circosInstance = circosObj.buildInstance();
+    debugger
+    this.props.updateFromChild("circos", circosInstance);
   }
 
   update(property) {

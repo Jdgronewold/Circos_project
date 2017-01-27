@@ -2,6 +2,7 @@ import React from 'react';
 import { objectify } from '../js/utils';
 import { bindAll, merge, omit } from 'lodash';
 import Papa from 'papaparse';
+import { bacheloretteData, bachelorData } from '../../test_data/data';
 
 class HeatmapForm extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class HeatmapForm extends React.Component {
       'parseData', 'update',
       'handleSubmit', 'renderHeatmapForm',
       'removeStateKey', 'getID',
-      'handleDelete'
+      'handleDelete', 'handleDemo'
     );
   }
 
@@ -109,6 +110,34 @@ class HeatmapForm extends React.Component {
     this.props.updateFromChild("circos", this.props.circos);
   }
 
+  handleDemo() {
+    const config1 = objectify(this.state);
+    const config2 = objectify(this.state);
+    delete config1['trackName'];
+    delete config2['trackName'];
+    let trackName1 = 'bachelor-views';
+    let trackName2 = 'bachelorette-views';
+    const toolTip1 = (d) => (
+      `start: ${d.start} to ${d.end},
+      value: ${d.value},
+      track name = ${trackName1}`
+    );
+    const toolTip2 = (d) => (
+      `Dates: ${d.start} to ${d.end},
+      value: ${d.value},
+      track name = ${trackName2}`
+    );
+    config1['tooltipContent'] = toolTip1;
+    config1.innerRadius = 80;
+    config1.outerRadius = 130;
+    config2['tooltipContent'] = toolTip2;
+    config2.innerRadius = 140;
+    config2.outerRadius = 190;
+    this.props.circos
+      .heatmap(trackName1, config1, bachelorData)
+      .heatmap(trackName2, config2, bacheloretteData);
+    this.props.updateFromChild("circos", this.props.circos);
+  }
 
   renderHeatmapForm() {
     return (
@@ -127,6 +156,11 @@ class HeatmapForm extends React.Component {
           value={this.state.trackName}
           onChange={this.update("trackName")}
           placeholder="Track name (required)"/>
+          <input
+            type='button'
+            id='demo-button'
+            value="Demo"
+            onClick={this.handleDemo}/>
           <div className="form-div">
             <h3>Heatmap Configuration</h3>
             <form id="heatmap-form">
