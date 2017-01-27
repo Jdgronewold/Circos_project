@@ -1,6 +1,6 @@
 import React from 'react';
 import { objectify } from '../js/utils';
-import { bindAll, merge } from 'lodash';
+import { bindAll, merge, omit } from 'lodash';
 import Papa from 'papaparse';
 
 class HistogramForm extends React.Component {
@@ -13,7 +13,7 @@ class HistogramForm extends React.Component {
       'resetState', 'loadData',
       'parseData', 'update',
       'handleSubmit', 'renderHistogramForm',
-      'removeStateKey'
+      'removeStateKey', 'getID'
     );
   }
 
@@ -60,6 +60,13 @@ class HistogramForm extends React.Component {
     this.setState({newState});
   }
 
+  getID(obj) {
+    const newObj = merge({}, obj);
+    const leftOver = omit(newObj, ['start', 'end', 'value']);
+    return Object.keys(leftOver)[0];
+  }
+
+
   parseData(text) {
     Papa.parse(text, {
       header: true,
@@ -67,6 +74,13 @@ class HistogramForm extends React.Component {
       complete: (results) => {
         const config = objectify(this.state);
         delete config['trackName'];
+        const label = this.getID(results.data[0]);
+        const toolTip = (d) => (
+          `start: ${d.start} to ${d.end},
+          value: ${d.value},
+          track name = ${trackName}`
+        );
+        config['tooltipContent'] = toolTip;
         const data = results.data.map((rowObj, idx) => {
           return Object.values(rowObj);
         });
@@ -93,18 +107,20 @@ class HistogramForm extends React.Component {
   renderHistogramForm() {
     return (
       <div className="forms-container">
-        <div className="form-tab">
+        <div className='file-options'>
           <input type="file" id="choose-file" />
           <input
             type='button'
             id='load-layout'
             value='Load'
             onClick={this.loadData}/>
-          <span id="loaded">Loaded!</span>
-          <input
-            type="text"
-            value={this.state.trackName}
-            onChange={this.update("trackName")}/>
+        </div>
+        <span id="loaded">Loaded!</span>
+        <input
+          type="text"
+          value={this.state.trackName}
+          onChange={this.update("trackName")}
+          placeholder="Track name (required)"/>
           <div className="form-div">
             <h3>Histogram Configuration</h3>
             <form id="histogram-form">
@@ -167,7 +183,6 @@ class HistogramForm extends React.Component {
               </div>
             </form>
           </div>
-        </div>
       </div>
     );
   }

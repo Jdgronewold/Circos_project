@@ -24,14 +24,22 @@ const Instructions = () => (
         <img src="test_data/sample_layout.png"></img>
       </li>
       <li>
-        After that, feel free to add as many tracks as you would like. Each track's data
-        must have a column that aligns with the id from the layout, a start and end position
-        that falls within the range of 0 to the len of the layout piece, and a value. See the
-        following image for a better idea of what the data should look like. Column headers
-        are required, but they do not need to match the sample data.
+        After that, feel free to add as many tracks as you would like. Each histogram
+        and heatmap track's data must have a column that aligns with the id from the layout,
+        a start and end position that falls within the range of 0 to the len of the layout piece,
+        and a value. See the following image for a better idea of what the data should look like.
       </li>
       <li>
         <img src="test_data/sample_data.png"></img>
+      </li>
+      <li>
+        Column headers are required, and it is recommended that the headers
+        "start", "end", and "value" are used for the interactive tooltips to
+        function properly.
+      </li>
+      <li>
+        Scatter data does not need an "end" column - it simply needs column
+        linking each row to a block, a start position, and a value. 
       </li>
     </ul>
   </div>

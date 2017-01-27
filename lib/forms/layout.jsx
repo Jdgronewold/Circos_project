@@ -43,7 +43,6 @@ class LayoutForm extends React.Component {
   }
 
   loadData(e) {
-    $('#loaded').toggle();
     e.preventDefault();
     if ( ! window.FileReader ) {
       return alert( 'FileReader API is not supported by your browser.' );
@@ -52,6 +51,7 @@ class LayoutForm extends React.Component {
     input = $i[0];
      // Getting the element from jQuery
     if ( input.files && input.files[0] ) {
+      $('#loaded').toggle();
       let file = input.files[0]; // The file
       let fr = new FileReader(); // FileReader instance
       fr.onload = () => {
@@ -83,8 +83,14 @@ class LayoutForm extends React.Component {
   }
 
   handleSubmit(){
-    $('#loaded').toggle();
-    this.parseData(this.fileText);
+    let $i = $('#choose-file'), // Put file input ID here
+    input = $i[0];
+    if ( input.files && input.files[0] ) {
+      $('#loaded').toggle();
+      this.parseData(this.fileText);
+    } else {
+      alert( "File not selected or browser incompatible." );
+    }
   }
 
   handleDemo() {
@@ -110,19 +116,20 @@ class LayoutForm extends React.Component {
   renderLayoutForm() {
     return (
       <div className="forms-container">
-        <div className="form-tab">
+        <div className='file-options'>
           <input type="file" id="choose-file" />
           <input
             type='button'
             id='load-layout'
             value='Load'
             onClick={this.loadData}/>
+        </div>
+        <span id="loaded">Loaded!</span>
           <input
             type='button'
             id='demo-button'
             value="Demo"
             onClick={this.handleDemo}/>
-          <span id="loaded">Loaded!</span>
           <div className="form-div">
             <h3>Ideogram Configuration</h3>
             <form id="layout-form">
@@ -145,7 +152,6 @@ class LayoutForm extends React.Component {
               </div>
             </form>
           </div>
-        </div>
       </div>
     );
   }
@@ -165,14 +171,14 @@ class LayoutForm extends React.Component {
           <div className="form-option-radio">
             {this.renderDemoData()}
             <fieldset id="display1">
-              <label> Display Labels
+              <label> Labels
                 <input
                   type="radio"
                   name="display1"
                   value={true}
                   onChange={this.updateNested('labels', 'display')}/>
               </label>
-              <label> Don't Display Labels
+              <label> No Labels
                 <input
                   type="radio"
                   name="display1"
@@ -216,14 +222,14 @@ class LayoutForm extends React.Component {
         <form id="ticks-form">
           <div className="form-option-radio">
             <fieldset id="display1">
-              <label> Display Ticks
+              <label> Ticks
                 <input
                   type="radio"
                   name="display1"
                   value={true}
                   onChange={this.updateNested('ticks', 'display')}/>
               </label>
-              <label> Don't Display Ticks
+              <label> No Ticks
                 <input
                   type="radio"
                   name="display1"
@@ -250,14 +256,14 @@ class LayoutForm extends React.Component {
           </div>
           <div className="form-option-radio">
             <fieldset id="display2">
-              <label> Display Tick Labels
+              <label> Tick Labels
                 <input
                   type="radio"
                   name="display2"
                   value={true}
                   onChange={this.updateNested('ticks', 'labels')}/>
               </label>
-              <label> Don't Display Ticks
+              <label> No Tick Labels
                 <input
                   type="radio"
                   name="display2"
@@ -275,6 +281,7 @@ class LayoutForm extends React.Component {
               onChange={this.updateNested('ticks','labelSuffix')}/>
           </div>
         </form>
+        <button id="submit-layout" onClick={this.handleSubmit}>Submit Layout</button>
       </div>
     );
   }
@@ -285,7 +292,6 @@ class LayoutForm extends React.Component {
         { this.renderLayoutForm() }
         { this.renderLabelsForm() }
         { this.renderTicksForm() }
-        <button id="submit-layout" onClick={this.handleSubmit}>Submit Layout</button>
       </div>
     );
   }

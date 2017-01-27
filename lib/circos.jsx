@@ -100,7 +100,7 @@ class Root extends React.Component {
         <Instructions />
       </div>
       <div className="circos-container">
-        <div className="form-options">
+        <div className="top-options">
           <div
             className="toggle"
             onClick={this.handleToggleInstructions}>
@@ -125,7 +125,8 @@ class Root extends React.Component {
         </div>
       </div>
       <div className="all-forms">
-        <div className="form-select">
+        <div className="form-select" name="form-select">
+          <label htmlFor="form-select"> Type of track: &nbsp;</label>
           <select value={this.state.form} onChange={this.handleSelect}>
             <option value="layout">Layout</option>
             <option value="heatmap">Heatmap</option>

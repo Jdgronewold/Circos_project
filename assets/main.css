@@ -1,17 +1,60 @@
+body {
+  background-color: #EFEFEF;
+}
+
 fieldset {
   border: 0px;
   padding: 0;
   margin: 0;
 }
 
+h1, h2, h3, h4, h5 {
+  font-family: 'Dosis', sans-serif;
+}
+
+input, select, textarea,
+option, button, span, label, li {
+  font-family: 'Open Sans', sans-serif;
+}
+
+ul {
+  list-style: none;
+}
+
+label, input {
+  margin: 5px;
+}
+
+button, input[type="button"] {
+  background-color: #90BBFD;
+  border: 2px solid #6EA7FD;
+  color: white;
+  cursor: pointer;
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+button:hover, input[type="button"]:hover {
+  background-color: #6EA7FD;
+}
+
 .main-container {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  height: 100vh;
+  overflow: scroll;
 }
 
-#demo-data {
-  display: none;
+.top-options {
+  margin: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: rows;
+  width: 90%;
 }
 
 .form-options {
@@ -21,7 +64,12 @@ fieldset {
   width: 90%;
 }
 
+.form-select {
+  margin-bottom: 20px;
+}
+
 .circos-container {
+  align-self: flex-start;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -35,10 +83,6 @@ fieldset {
   align-items: center;
 }
 
-.download button {
-  width: 50%;
-}
-
 .toggle {
   margin: 10px;
   width: 50px;
@@ -46,37 +90,77 @@ fieldset {
 }
 
 .toggle i {
-  border-radius: 3px;
-  	cursor: pointer;
-    color: #FF5733;
-    background-color: #900C3F;
-    padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #FCD2AB;
+  background-color: #90BBFD;
+  padding: 10px;
+  border: 2px solid #6EA7FD;
+}
+
+.toggle i:hover {
+  transform: scale(1.1);
 }
 
 .all-forms {
   display: none;
+  margin: 20px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  overflow: scroll;
 }
+
 
 .instruction-container {
   display: none;
+  margin: 20px;
+  overflow: scroll;
+  background-color: white;
+  border-radius: 10px;
 }
 
-.form-tab {
+.forms-container {
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .heatmap-tab {
   flex: 1;
 }
 
+.Instructions {
+  padding: 10px;
+}
+
+.file-options {
+  display: flex;
+  flex-direction: row;
+  /*justify-content: space-between;*/
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 #chart {
-  width: 500px;
-  height: 500px;
+  width: 600px;
+  height: 600px;
   border: 1px solid black;
+  background-color: white;
+  border-radius: 20px;
 }
 
 #loaded {
+  display: none;
+  color: #6EA7FD;
+  margin: 10px;
+}
+
+#choose-file {
+  width: 50%;
+}
+
+#demo-data {
   display: none;
 }
