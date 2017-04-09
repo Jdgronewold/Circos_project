@@ -94,7 +94,7 @@ class LayoutForm extends React.Component {
 
   handleDemo() {
     const fixedState = objectify(this.state);
-    const circosObj = new Circos(layout_data, fixedState);
+    const circosObj = new CircosObj(layout_data, fixedState);
     const circosInstance = circosObj.buildInstance();
     debugger
     this.props.updateFromChild("circos", circosInstance);
